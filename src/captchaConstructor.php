@@ -114,10 +114,9 @@
             imagedestroy($this->image);
             try {
                 clearstatcache();
-                $imgContent = @file_get_contents($name); $imgMime = mime_content_type($name);
-                return "data:".$imgMime.";base64,".base64_encode($imgContent);
-            } catch (\Exception $e) {}
-            finally {clearstatcache(); @unlink($name);}
+                $imgContent = @file_get_contents($name);
+                return "data:".($this->options['imageOutput'] == "png" ? 'image/png' : ($this->options['imageOutput'] == "jpg" ? 'image/jpeg' : 'image/gif')).";base64,".base64_encode($imgContent);
+            } catch (\Exception $e) {} finally {clearstatcache(); @unlink($name);}
         }
         public function validateCaptcha(string $value){
             $this->codeEntered = $value;
